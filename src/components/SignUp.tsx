@@ -1,64 +1,40 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-interface IFormInput {
-    email: string
-    name: string
-    password: string
-    passwordConfirmation: string
-}
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3-14}$/;
+const PASSWORD_REGEX = /^(?=.*)(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,24}$/;
 
 const SignUp = () => {
-    const { register, getValues, handleSubmit } = useForm<IFormInput>()
-
-    const [json, setJson] = useState<string>()
-
-    const onSubmit = (data: IFormInput) => {
-        setJson(JSON.stringify(data))
-        console.log(data)
-    }
 
   return (
     <div>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form noValidate>
             <h2>Sign Up</h2>
             <label>Enter Email</label>
             <input 
                 type="email" 
-                {...register("email")}
+                
                 placeholder="Email" 
                 required 
             />
             <label>Username</label>
             <input 
                 type="name"
-                {...register("name")} 
                 placeholder="Username" 
                 />
             <label>Enter Password</label> 
             <input 
-                type="password"
-                {...register("password", 
-                {required: "Password is required"}
-                )}
-                placeholder="Password is required" 
+                type="password"                
+                placeholder="Password is required"
+                required
                 
             />
             <label>Confirm Password</label> 
             <input 
                 type="password" 
-                {...register("passwordConfirmation", {
-                    required: "Please confirm your password",
-                    validate: {
-                        matchesPreviousPassword: (value: string) => {
-                            const {password} = getValues()
-                            return password === value || "Passwords don't match"
-                        }
-                    }
-                })}
-
-                placeholder="Password" 
+                placeholder="Confirm Password" 
             />
             <button>Submit</button>
             <div>Already have an Account?</div>

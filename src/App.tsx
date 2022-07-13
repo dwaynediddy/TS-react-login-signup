@@ -1,14 +1,14 @@
 import './App.css';
 import { Link } from 'react-router-dom';
+import Login from './components/Login';
 
 function App() {
   return (
-      <div className="App">
-        <div>Welcome to Home</div>
-        <Link to="/login">Login</Link>
+      <main className="App">
+        <Login />
         <Link to="/signup">Sign Up</Link>   
         <Link to="/dashboard">Dashboard</Link>     
-      </div>
+      </main>
   )
 }
 
