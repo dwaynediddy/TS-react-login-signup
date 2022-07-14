@@ -69,16 +69,16 @@ const SignUp = () => {
  
   return (
     <section>
-        <p ref={errRef} className={errMsg ? 'error' : ' '}>{errMsg}</p>
+        <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'}>{errMsg}</p>
         <form noValidate>
             <h2>Sign Up</h2>
             <label 
                 htmlFor='username'>
                     Username:
-                    <span>
+                    <span className={validName ? 'valid' : 'hide'}>
                         <FontAwesomeIcon icon={faCheck} />
                     </span>
-                    <span>
+                    <span className={validName || !user ? 'hide' : 'invalid'}>
                         <FontAwesomeIcon icon={faTimes} />
                     </span>
             </label>
@@ -92,23 +92,12 @@ const SignUp = () => {
                 onFocus={() => setUserFocus(true)}
                 onBlur={() => setUserFocus(false)}
             />
-            <p className={userFocus && user && !validName ? 'instruction' : 'offscreen'}>
+            <p id='uidnote' className={userFocus && user && !validName ? 'instruction' : 'offscreen'}>
                 <FontAwesomeIcon icon={faInfoCircle} /> 
                 4 to 14 characters.<br />
                 must begin with letter <br />
                 letters, numbers, underscores, hyphens allowed.
             </p>
-            <label htmlFor="email">Enter Email: </label>
-            <input 
-                type='email'
-                id='email'
-                ref={userRef}
-                autoComplete='off'
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                onFocus={() => setEmailFocus(true)}
-                onBlur={() => setEmailFocus(false)}
-                />
             <label>Enter Password</label> 
             <input 
                 type="password"                
