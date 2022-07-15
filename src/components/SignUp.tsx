@@ -117,7 +117,7 @@ const SignUp = () => {
             </p>
 
 
-            <label htmlFor='confirm_pwd'>Enter Password</label> 
+            <label htmlFor='confirm_pwd'>Confirm Password</label> 
                 <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                 <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
             <input 
@@ -130,7 +130,7 @@ const SignUp = () => {
                 aria-describedby="confirmnote"
                 onFocus={() => setMatchFocus(true)}
                 onBlur={() => setMatchFocus(false)}
-                placeholder="Password is required"
+                placeholder="Confirm Password"
                 required
             />
             <p id='confirmnote' className={matchFocus && !validMatch ? 'instructions' : 'offscreen'} aria-live="assertive">
@@ -138,7 +138,7 @@ const SignUp = () => {
                 Must be Identical to Password<br />
 
             </p>
-            <button>Submit</button>
+            <button disabled={!validName || !validPwd || !validMatch ? true : false}>Submit</button>
             <div>Already have an Account?</div>
             <Link to="/login">
                 <button>Login here</button>
