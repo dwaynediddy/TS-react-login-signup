@@ -54,17 +54,13 @@ const SignUp = () => {
     // }, [email])
 
     useEffect(() => {
-        const result = PASSWORD_REGEX.test(pwd)
-        console.log(result)
-        console.log(pwd)
-        setValidPwd(result)
-        const match = pwd === matchPwd
-        setValidPwd(match)
+        setValidPwd(PASSWORD_REGEX.test(pwd));
+        setValidMatch(pwd === matchPwd);
     }, [pwd, matchPwd])
 
     useEffect(() => {
         setErrMsg('')
-    }, [user,email, pwd, matchPwd])
+    }, [user, pwd, matchPwd])
  
   return (
     <section>
@@ -99,16 +95,13 @@ const SignUp = () => {
 
             {/* password field */}
             <label htmlFor='password'>Enter Password</label> 
-            <span className={validPwd ? 'valid' : 'hide'}>
-                <FontAwesomeIcon icon={faCheck} />
-            </span>
-            <span className={validPwd || !pwd ? 'hide' : 'invalid'}>
-                <FontAwesomeIcon icon={faTimes} />
-            </span>
+                <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
+                <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
             <input 
                 type="password"                
                 id='password'
                 autoComplete='off'
+                value={pwd}
                 onChange={(e) => setPwd(e.target.value)}
                 aria-invalid={validPwd ? 'false' : 'true'}
                 aria-describedby="pwdnote"
