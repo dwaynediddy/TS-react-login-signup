@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom'
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const USER_REGEX = /^[a-z][A-Z][a-zA-Z0-9-_]{3-14}$/;
+const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const EMAIL_REGEX = /^(([^<>()[\],;:\s@"]+(\.[^<>()[\],;:\s@"]+)*)|(".+"))@(([^<>()[\],;:\s@]+)+[^<>()[\],;:\s@]{2,})$/i
 
 interface signUpRequest {
     username: string;
@@ -47,12 +46,12 @@ const SignUp = () => {
         setValidName(result)
     }, [user])
 
-    useEffect(() => {
-        const result = EMAIL_REGEX.test(email)
-        console.log(result)
-        console.log(email)
-        setValidEmail(result)
-    }, [email])
+    // useEffect(() => {
+    //     const result = EMAIL_REGEX.test(email)
+    //     console.log(result)
+    //     console.log(email)
+    //     setValidEmail(result)
+    // }, [email])
 
     useEffect(() => {
         const result = PASSWORD_REGEX.test(pwd)
