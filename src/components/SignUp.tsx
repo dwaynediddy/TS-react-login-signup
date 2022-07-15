@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3-14}$/;
-const EMAIL_REGEX = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-const PASSWORD_REGEX = /^(?=.*)(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,24}$/;
+const USER_REGEX = /^[a-z][A-Z][a-zA-Z0-9-_]{3-14}$/;
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const EMAIL_REGEX = /^(([^<>()[\],;:\s@"]+(\.[^<>()[\],;:\s@"]+)*)|(".+"))@(([^<>()[\],;:\s@]+)+[^<>()[\],;:\s@]{2,})$/i
 
 interface signUpRequest {
     username: string;
@@ -69,18 +69,14 @@ const SignUp = () => {
  
   return (
     <section>
-        <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'}>{errMsg}</p>
+        <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live='assertive'>{errMsg}</p>
         <form noValidate>
             <h2>Sign Up</h2>
             <label 
                 htmlFor='username'>
                     Username:
-                    <span className={validName ? 'valid' : 'hide'}>
-                        <FontAwesomeIcon icon={faCheck} />
-                    </span>
-                    <span className={validName || !user ? 'hide' : 'invalid'}>
-                        <FontAwesomeIcon icon={faTimes} />
-                    </span>
+                    <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
+                    <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
             </label>
             <input 
                 type='text'
@@ -88,33 +84,51 @@ const SignUp = () => {
                 ref={userRef}
                 autoComplete='off'
                 onChange={(e) => setUser(e.target.value)}
-                required
+                aria-invalid={validName ? 'false' : 'true'}
+                value={user}
+                aria-describedby='uidnote'
                 onFocus={() => setUserFocus(true)}
                 onBlur={() => setUserFocus(false)}
+                required
             />
-            <p id='uidnote' className={userFocus && user && !validName ? 'instruction' : 'offscreen'}>
+            <p id='uidnote' className={userFocus && user && !validName ? 'instructions' : 'offscreen'} aria-live="assertive">
                 <FontAwesomeIcon icon={faInfoCircle} /> 
-                4 to 14 characters.<br />
+                 4 to 14 characters.<br />
                 must begin with letter <br />
                 letters, numbers, underscores, hyphens allowed.
             </p>
-            <label>Enter Password</label> 
+
+            {/* password field */}
+            <label htmlFor='password'>Enter Password</label> 
+            <span className={validPwd ? 'valid' : 'hide'}>
+                <FontAwesomeIcon icon={faCheck} />
+            </span>
+            <span className={validPwd || !pwd ? 'hide' : 'invalid'}>
+                <FontAwesomeIcon icon={faTimes} />
+            </span>
             <input 
                 type="password"                
                 id='password'
-                ref={userRef}
                 autoComplete='off'
                 onChange={(e) => setPwd(e.target.value)}
+                aria-invalid={validPwd ? 'false' : 'true'}
+                aria-describedby="pwdnote"
                 onFocus={() => setPwdFocus(true)}
                 onBlur={() => setPwdFocus(false)}
                 placeholder="Password is required"
                 required
-                
-                />
+            />
+            <p id='pwdnote' className={pwdFocus && !validPwd ? 'instructions' : 'offscreen'} aria-live="assertive">
+                <FontAwesomeIcon icon={faInfoCircle} /> 
+                8 to 24 characters. <br />
+                must include uppercase lowercase letters, number and special character <br />
+            </p>
+
+
             <label>Confirm Password</label> 
             <input 
                 type="password"                
-                id='password'
+                id='confirmPassword'
                 ref={userRef}
                 autoComplete='off'
                 onChange={(e) => setPwd(e.target.value)}
