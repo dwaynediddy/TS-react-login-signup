@@ -117,18 +117,27 @@ const SignUp = () => {
             </p>
 
 
-            <label>Confirm Password</label> 
+            <label htmlFor='confirm_pwd'>Enter Password</label> 
+                <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+                <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
             <input 
                 type="password"                
-                id='confirmPassword'
-                ref={userRef}
+                id='confirm_pwd'
                 autoComplete='off'
-                onChange={(e) => setPwd(e.target.value)}
-                onFocus={() => setPwdFocus(true)}
-                onBlur={() => setPwdFocus(false)}
+                value={matchPwd}
+                onChange={(e) => setMatchPwd(e.target.value)}
+                aria-invalid={validMatch ? 'false' : 'true'}
+                aria-describedby="confirmnote"
+                onFocus={() => setMatchFocus(true)}
+                onBlur={() => setMatchFocus(false)}
                 placeholder="Password is required"
                 required
             />
+            <p id='confirmnote' className={matchFocus && !validMatch ? 'instructions' : 'offscreen'} aria-live="assertive">
+                <FontAwesomeIcon icon={faInfoCircle} /> 
+                Must be Identical to Password<br />
+
+            </p>
             <button>Submit</button>
             <div>Already have an Account?</div>
             <Link to="/login">
