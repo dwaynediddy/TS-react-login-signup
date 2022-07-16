@@ -1,10 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
+import axios from '../api/axios'
 import { Link } from 'react-router-dom'
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+// end point to backend api
+const REGISTER_URL = './BACKEND_ENDPOINT'
 
 interface signUpRequest {
     username: string;
@@ -69,9 +73,31 @@ const SignUp = () => {
         if (!userSecure || !pwdSecure) {
             setErrMsg('Invalid Entry')
             return
-        }
-        console.log(user, pwd)
+        } 
+        try { 
+            // stringify user, pwd will be names of what the back end is expecting if the state name is different it will still
+            // expect user, pwd.  different naming example user(expected property): username(if state was named username/different from expected)
+            // pwd: password, etc
+            const response = await axios.post(REGISTER_URL, JSON.stringify({ user, pwd }),
+            {
+                headers: { 'content/type': 'application/json'},
+                withCredentials: true
+            }
+        )
+        console.log(response.data)
+        console.log(JSON.stringify(response))
         setSuccess(true)
+        // clear input fields
+        } catch (err: any) {
+            if (!err?.response) {
+                setErrMsg('No Server Response')
+            } else if (err.response.status === 409) {
+                setErrMsg('User name Taken')
+            } else {
+                setErrMsg('registration failed..')
+            }
+            errRef.current?.focus()
+        }
     }
  
   return (
