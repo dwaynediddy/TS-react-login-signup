@@ -21,43 +21,58 @@ const Login = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
+        console.log(user, password)
+        setUser('')
+        setPassword('')
+        setSuccess(true)
     }
 
   return (
-    <section>
-        <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>{errMsg}</p>
-        <form onSubmit={handleSubmit}>
-            <h2>Login</h2>
-            <label htmlFor='username'>Username</label>
-            <input 
-                type="text"
-                id="username" 
-                ref={userRef}
-                autoComplete='off'
-                onChange={(e) => setUser(e.target.value)}
-                value={user}
-                required
-            />
-            <label>Password</label>
-            <input 
-                type="password"
-                id="password"
-                autoComplete='off'
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                required
-            />
-            <button>Login</button>
-            <div>Dont have an account?</div>
-            <Link to="/signup">
-                <p>Sign Up</p>
-            </ Link>
-            <p>Forgot your password</p>
-            <Link to="#">
-                <p>Reset Password</p>
-            </Link>
-        </form>
-    </section>
+    <>
+    {success ? (
+         <section>
+            <h3>You are logged in!</h3>
+            <br/>
+            <Link to='/profile'>Profile</Link>
+         </section>
+    ) : (
+
+        <section>
+            <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>{errMsg}</p>
+            <form onSubmit={handleSubmit}>
+                <h2>Login</h2>
+                <label htmlFor='username'>Username</label>
+                <input 
+                    type="text"
+                    id="username" 
+                    ref={userRef}
+                    autoComplete='off'
+                    onChange={(e) => setUser(e.target.value)}
+                    value={user}
+                    required
+                    />
+                <label>Password</label>
+                <input 
+                    type="password"
+                    id="password"
+                    autoComplete='off'
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    required
+                    />
+                <button>Login</button>
+                <div>Dont have an account?</div>
+                <Link to="/signup">
+                    <p>Sign Up</p>
+                </ Link>
+                <p>Forgot your password</p>
+                <Link to="#">
+                    <p>Reset Password</p>
+                </Link>
+            </form>
+        </section>
+        )}
+    </>
   )
   
 }
