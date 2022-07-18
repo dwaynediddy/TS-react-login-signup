@@ -6,8 +6,8 @@ function App() {
   return (
       <main className="App">
         <Login />
-        <Link to="/signup">Sign Up</Link>   
-        <Link to="/dashboard">Dashboard</Link>     
+        {/* <Link to="/signup">Sign Up</Link>   
+        <Link to="/dashboard">Dashboard</Link>      */}
       </main>
   )
 }

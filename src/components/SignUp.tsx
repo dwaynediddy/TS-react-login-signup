@@ -10,11 +10,6 @@ const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
 // end point to backend api
 const REGISTER_URL = './BACKEND_ENDPOINT'
 
-interface signUpRequest {
-    username: string;
-    email: string;
-    password: string;
-}
 
 const SignUp = () => {
     const userRef = useRef<null | HTMLInputElement>(null)
@@ -87,7 +82,6 @@ const SignUp = () => {
         console.log(response.data)
         console.log(JSON.stringify(response))
         setSuccess(true)
-        // clear input fields
         } catch (err: any) {
             if (!err?.response) {
                 setErrMsg('No Server Response')
