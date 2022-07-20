@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
+import { AuthProvider } from './context/AuthProvider'
 import App from './App';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
@@ -13,12 +14,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-    <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/signup" element={<SignUp/>} />
-          <Route path="/profile" element={<Profile/>} />
+      <AuthProvider>
+        <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/signup" element={<SignUp/>} />
+            <Route path="/profile" element={<Profile/>} />
         </Routes>
+      </AuthProvider>
     </React.StrictMode>
   </BrowserRouter>
 );

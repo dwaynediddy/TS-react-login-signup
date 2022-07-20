@@ -1,8 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import AuthContext from '../context/AuthProvider'
+import axios from '../api/axios'
+// matching where it will go in the backend
+const LOGIN_URL = '/'
 
 const Login = () => {
+    const { setAuth } = useContext<any>(AuthContext)
     const userRef = useRef<null | HTMLInputElement>(null)
     const errRef = useRef<null | HTMLParagraphElement>(null)
 
@@ -19,11 +23,30 @@ const Login = () => {
         setErrMsg('')
     }, [user, password])
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        console.log(user, password)
-        setUser('')
-        setPassword('')
+        try {
+            const response = await axios.post(LOGIN_URL, JSON.stringify({ user, password}),
+            {
+                headers: {'Content-Type': 'application/json'},
+                withCredentials: true
+            }
+        )
+            console.log(JSON.stringify(response?.data))
+            const accessToken = response?.data?.accessToken
+            setAuth({ user, password, accessToken})
+            setUser('')
+            setPassword('')
+        } catch (err: any) {
+            if (!err?.response) {
+                setErrMsg(err("no server response"))
+            } else if (err.response === 400) {
+                setErrMsg('no username or password')
+            } else if (err.response === 401) {
+                setErrMsg('login failed')
+            }
+            errRef.current?.focus()
+        }
         setSuccess(true)
     }
 
